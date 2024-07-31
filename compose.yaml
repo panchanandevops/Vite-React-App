@@ -1,0 +1,11 @@
+
+services:
+  frontend:
+    container_name: Vite-React-Page
+    image: panchanandevops/vite-react-app:v1.0.0
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:8080
+    
