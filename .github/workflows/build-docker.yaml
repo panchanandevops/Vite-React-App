@@ -1,4 +1,4 @@
-name: Build and Push vite reacts Docker Image
+name: Build and Push Vite React Docker Image
 
 on:
   push:
@@ -33,12 +33,41 @@ jobs:
           tags: |
             type=semver,pattern={{version}}
             type=sha
+          labels: |
+            version={{version}}
+            commit_sha={{sha}}
 
-      - name: Build and push backend
+      - name: Build and push Vite React Docker image
         uses: docker/build-push-action@v6
         with:
-          context: .          # Set the context to the root directory
-          file: Dockerfile   # Set the Dockerfile path to Dockerfile in the root directory
+          context: .           # Set the context to the root directory
+          file: Dockerfile    # Set the Dockerfile path to Dockerfile in the root directory
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+    
+      - name: Extract first tag
+        id: extract-tag
+        run: |
+          TAG=$(echo '${{ steps.meta.outputs.tags }}' | head -n 1)
+          echo "TAG=$TAG" >> $GITHUB_ENV
+  
+      - name: Pull Docker image
+        run: docker pull panchanandevops/vite-react-app:${{ env.TAG }}
+  
+      - name: Run Trivy for HIGH, CRITICAL CVEs and report
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: panchanandevops/vite-react-app:${{ env.TAG }}
+          exit-code: 0  # Do not fail the workflow on vulnerabilities
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'HIGH,CRITICAL'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+        
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
