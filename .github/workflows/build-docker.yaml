@@ -60,8 +60,3 @@ jobs:
         if: always()
         with:
           sarif_file: "trivy-results.sarif"
-      - name: Upload Trivy SARIF file as an artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: trivy-sarif-report
-          path: trivy-results.sarif
