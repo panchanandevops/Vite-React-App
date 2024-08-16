@@ -46,19 +46,13 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Extract first tag
-        id: extract-tag
-        run: |
-          TAG=$(echo "${{ steps.meta.outputs.tags }}" | cut -d ',' -f 1)
-          echo "TAG=$TAG" >> $GITHUB_ENV
-
       - name: Pull Docker image
-        run: docker pull panchanandevops/vite-react-app:${{ env.TAG }}
+        run: docker pull panchanandevops/vite-react-app:${{ github.sha }}
 
       - name: Run Trivy for HIGH, CRITICAL CVEs and report
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: panchanandevops/vite-react-app:${{ env.TAG }}
+          image-ref: panchanandevops/vite-react-app:${{ github.sha }}
           exit-code: 0 # Do not fail the workflow on vulnerabilities
           ignore-unfixed: true
           vuln-type: "os,library"
