@@ -90,7 +90,7 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           base: main # The branch to merge into
-          head: update-deployment-image-${{ github.sha }} # The branch with your changes
+          branch: update-deployment-image-${{ github.sha }} # The branch with your changes
           title: "Update deployment image to ${steps.meta.outputs.tags}"
           body: "This PR updates the deployment image in 1-deployment-vite.yaml to use the newly built image."
           token: ${{ secrets.GITHUB_TOKEN }}
