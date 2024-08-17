@@ -2,6 +2,7 @@ name: Build and Push Vite React Docker Image
 
 permissions:
   security-events: write
+  contents: write  # Required for creating branches and pull requests
 
 on:
   push:
@@ -44,6 +45,7 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+      
 
       - name: Run Trivy for HIGH, CRITICAL CVEs and report
         uses: aquasecurity/trivy-action@master
@@ -55,9 +57,34 @@ jobs:
           severity: "HIGH,CRITICAL"
           format: "sarif"
           output: "trivy-results.sarif"
-
+  
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
         if: always()
         with:
           sarif_file: "trivy-results.sarif"
+            
+            
+      - name: Create a new branch
+        run: |
+          git checkout -b update-deployment-image-${{ github.sha }}
+
+      - name: Update deployment image in Kubernetes YAML
+        run: |
+          sed -i "s|image: .*/vite-react-app:.*|image: ${{ steps.meta.outputs.tags }}|" Deploy/k8s/1-deployment-vite.yaml
+          git add Deploy/k8s/1-deployment-vite.yaml
+          git commit -m "Update deployment image to ${{ steps.meta.outputs.tags }}"
+
+      - name: Push the new branch
+        run: |
+          git push origin update-deployment-image-${{ github.sha }}
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          branch: update-deployment-image-${{ github.sha }}
+          title: "Update deployment image to ${{ steps.meta.outputs.tags }}"
+          body: "This PR updates the deployment image in 1-deployment-vite.yaml to use the newly built image."
+          labels: |
+            automated-pr
+          reviewers: panchanandevops
