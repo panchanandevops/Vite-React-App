@@ -78,7 +78,7 @@ jobs:
 
       - name: Update deployment image in Kubernetes YAML
         run: |
-          sed -i "s|image: .*/vite-react-app:.*|image: ${{ steps.meta.outputs.tags }}|" Deploy/k8s/1-deployment-vite.yaml
+          sed -i "s|image: panchanandevops/vite-react-app:.*|image: ${{ steps.meta.outputs.tags }}|" Deploy/k8s/1-deployment-vite.yaml
           git add Deploy/k8s/1-deployment-vite.yaml
           git commit -m "Update deployment image to ${{ steps.meta.outputs.tags }}"
 
