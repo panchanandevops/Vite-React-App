@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: https://github.com/panchanandevops/Vite-React-App.git
     targetRevision: HEAD
-    path: Deploy/k8s/# Path within the Git repository containing application manifests
+    path: Deploy/k8s/
   destination:
     server: https://kubernetes.default.svc # Kubernetes cluster API server address
   syncPolicy:
