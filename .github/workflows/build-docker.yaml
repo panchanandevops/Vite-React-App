@@ -63,28 +63,3 @@ jobs:
         if: always()
         with:
           sarif_file: "trivy-results.sarif"
-            
-     
-      - name: Set Git user identity
-        run: |
-          git config --global user.email "panchanandevops@gmail.com"
-          git config --global user.name "panchanandevops"    
-
-      - name: Create a new branch
-        run: |
-          git checkout -b main # Ensure you're on the main branch
-          git pull origin main
-          git checkout -b update-deployment-image-${{ github.sha }}
-          sed -i "s|image: panchanandevops/vite-react-app:.*|image: ${{ steps.meta.outputs.tags }}|" Deploy/k8s/1-deployment-vite.yaml
-          git add Deploy/k8s/1-deployment-vite.yaml
-          git commit -m "Update deployment image to ${{ steps.meta.outputs.tags }}"
-          git push origin update-deployment-image-${{ github.sha }}
-
-      - name: Create a pull request
-        uses: peter-evans/create-pull-request@v6
-        with:
-          base: main # The branch to merge into
-          branch: update-deployment-image-${{ github.sha }} # The branch with your changes
-          title: "Update deployment image to ${steps.meta.outputs.tags}"
-          body: "This PR updates the deployment image in 1-deployment-vite.yaml to use the newly built image."
-          token: ${{ secrets.PAT_TOKEN }}
