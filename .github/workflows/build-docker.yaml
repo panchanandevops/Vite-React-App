@@ -72,6 +72,8 @@ jobs:
 
       - name: Create a new branch
         run: |
+          git checkout main # Ensure you're on the main branch
+          git pull origin main
           git checkout -b update-deployment-image-${{ github.sha }}
 
       - name: Update deployment image in Kubernetes YAML
