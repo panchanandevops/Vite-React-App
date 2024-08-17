@@ -87,7 +87,7 @@ jobs:
           git push origin update-deployment-image-${{ github.sha }}
 
       - name: Create a pull request
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v6
         with:
           base: main # The branch to merge into
           branch: update-deployment-image-${{ github.sha }} # The branch with your changes
