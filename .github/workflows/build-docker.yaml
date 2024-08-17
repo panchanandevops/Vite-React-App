@@ -86,12 +86,11 @@ jobs:
         run: |
           git push origin update-deployment-image-${{ github.sha }}
 
-      - name: Create Pull Request
+      - name: Create a pull request
         uses: peter-evans/create-pull-request@v5
         with:
-          branch: update-deployment-image-${{ github.sha }}
-          title: "Update deployment image to ${{ steps.meta.outputs.tags }}"
+          base: main # The branch to merge into
+          head: update-deployment-image-${{ github.sha }} # The branch with your changes
+          title: "Update deployment image to ${steps.meta.outputs.tags}"
           body: "This PR updates the deployment image in 1-deployment-vite.yaml to use the newly built image."
-          labels: |
-            automated-pr
-          reviewers: panchanandevops
+          token: ${{ secrets.GITHUB_TOKEN }}
