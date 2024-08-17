@@ -75,15 +75,9 @@ jobs:
           git checkout -b main # Ensure you're on the main branch
           git pull origin main
           git checkout -b update-deployment-image-${{ github.sha }}
-
-      - name: Update deployment image in Kubernetes YAML
-        run: |
           sed -i "s|image: panchanandevops/vite-react-app:.*|image: ${{ steps.meta.outputs.tags }}|" Deploy/k8s/1-deployment-vite.yaml
           git add Deploy/k8s/1-deployment-vite.yaml
           git commit -m "Update deployment image to ${{ steps.meta.outputs.tags }}"
-
-      - name: Push the new branch
-        run: |
           git push origin update-deployment-image-${{ github.sha }}
 
       - name: Create a pull request
