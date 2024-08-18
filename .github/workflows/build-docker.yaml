@@ -79,4 +79,4 @@ jobs:
           git config --global user.name "Panchanan Panigrahi"
           git add Deploy/k8s/1-deployment-vite.yaml
           git commit -m "Update tag in Deploy/k8s/1-deployment-vite.yaml"
-          git push
+          git push origin HEAD:main
