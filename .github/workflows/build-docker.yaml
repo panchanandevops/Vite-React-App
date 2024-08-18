@@ -2,7 +2,7 @@ name: Build and Push Vite React Docker Image
 
 permissions:
   security-events: write
-  contents: write  # Required for creating branches and pull requests
+  
 
 on:
   push:
@@ -63,3 +63,20 @@ jobs:
         if: always()
         with:
           sarif_file: "trivy-results.sarif"
+
+      - name: Debug the image tag
+        run: |
+          echo "New image tag: ${{ steps.meta.outputs.tags }}"
+        
+      - name: Update deployment image in YAML
+        run: |
+          NEW_IMAGE_TAG=${{ steps.meta.outputs.tags }}
+          sed -i "s|image: panchanandevops/vite-react-app:.*|image: panchanandevops/vite-react-app:${NEW_IMAGE_TAG}|g" Deploy/k8s/1-deployment-vite.yaml
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.email "panchanandevops@gmail.com"
+          git config --global user.name "Panchanan Panigrahi"
+          git add Deploy/k8s/1-deployment-vite.yaml
+          git commit -m "Update tag in Deploy/k8s/1-deployment-vite.yaml"
+          git push
