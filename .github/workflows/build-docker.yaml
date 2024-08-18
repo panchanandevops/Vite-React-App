@@ -63,15 +63,10 @@ jobs:
         if: always()
         with:
           sarif_file: "trivy-results.sarif"
-
-      - name: Debug the image tag
-        run: |
-          echo "New image tag: ${{ steps.meta.outputs.tags }}"
         
       - name: Update deployment image in YAML
         run: |
-          NEW_IMAGE_TAG=${{ steps.meta.outputs.tags }}
-          sed -i "s|image: panchanandevops/vite-react-app:.*|image: panchanandevops/vite-react-app:${NEW_IMAGE_TAG}|g" Deploy/k8s/1-deployment-vite.yaml
+          sed -i "s|image: panchanandevops/vite-react-app:.*|image: ${{ steps.meta.outputs.tags }}|g" Deploy/k8s/1-deployment-vite.yaml
 
       - name: Commit and push changes
         run: |
