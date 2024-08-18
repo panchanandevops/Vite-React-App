@@ -2,7 +2,7 @@ name: Build and Push Vite React Docker Image
 
 permissions:
   security-events: write
-  
+  contents: write
 
 on:
   push:
