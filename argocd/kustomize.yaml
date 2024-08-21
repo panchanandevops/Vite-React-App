@@ -8,7 +8,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/panchanandevops/argocd-helm.git
+    repoURL: https://github.com/panchanandevops/Todo-React-Spring-App.git
     targetRevision: HEAD
     path: nginx-kustomize/overlays/prod # Path within the Git repository containing application manifests
   destination:
