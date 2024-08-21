@@ -1,0 +1,4 @@
+resources:
+  - 0-namespace.yaml
+  - 1-deployment-vite.yaml
+  - 2-vite-service.yaml

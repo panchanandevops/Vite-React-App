@@ -8,9 +8,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/panchanandevops/argocd-helm.git
+    repoURL: https://github.com/panchanandevops/Vite-React-App.git
     targetRevision: main
-    path: nginx-app/ # Path within the Git repository containing application manifests
+    path: Deploy/vite-helm-chart/ # Path within the Git repository containing application manifests
     helm:
       releaseName: my-nginx-helm
   destination:
