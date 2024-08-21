@@ -1,29 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: vite-deployment
-  namespace: dev
+  name: {{ .Release.Name }}-{{ .Values.deployment.name }}
+  namespace: {{ .Values.namespace.name | default .Release.Namespace }}
   labels:
-    app: nginx
+    {{- include "common.labels" . | nindent 4 }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.deployment.replicas }}
   selector:
     matchLabels:
-      app: vite-react-app
+      {{- include "common.labels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app: vite-react-app
+        {{- include "common.labels" . | nindent 8 }}
     spec:
       containers:
-        - name: vite-react-app
-          image: panchanandevops/vite-react-app:2.3.9
-          ports:
-            - containerPort: 8080
-          resources:
-            limits:
-              memory: "512Mi"
-              cpu: "500m"
-            requests:
-              memory: "256Mi"
-              cpu: "250m"
+        {{- include "mychart.container" . | nindent 8 }}

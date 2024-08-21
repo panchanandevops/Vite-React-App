@@ -1,22 +1,24 @@
+{{- if .Values.ingress.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: vite-ingress
-  namespace: dev
-  labels:
-    app: nginx
+  name: {{ .Release.Name }}-{{ .Values.ingress.name }}
+  namespace: {{ .Values.namespace.name | default .Release.Namespace }}
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
+  labels:
+    {{- include "common.labels" . | nindent 4 }}
 spec:
-  ingressClassName: nginx
+  ingressClassName: {{ .Values.ingress.className }}
   rules:
-    - host: panchanandevops.com
+    - host: {{ .Values.ingress.host }}
       http:
         paths:
-          - path: /
-            pathType: Prefix
+          - pathType: Prefix
+            path: "/"
             backend:
               service:
-                name: vite-service
+                name: {{ .Release.Name }}-{{ .Values.service.name }}
                 port:
-                  number: 8080
+                  number: {{ .Values.service.port }}
+{{- end }}

@@ -4,7 +4,7 @@ metadata:
   name: vite-deployment
   namespace: dev
   labels:
-    app: nginx
+    app: vite-react-app
 spec:
   replicas: 1
   selector:

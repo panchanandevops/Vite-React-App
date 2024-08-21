@@ -4,7 +4,7 @@ metadata:
   name: vite-service
   namespace: dev
   labels:
-    app: nginx
+    app: vite-react-app
 spec:
   selector:
     app: vite-react-app

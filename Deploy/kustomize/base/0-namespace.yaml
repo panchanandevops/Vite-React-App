@@ -3,4 +3,4 @@ kind: Namespace
 metadata:
   name: dev
   labels:
-    app: nginx
+    app: vite-react-app

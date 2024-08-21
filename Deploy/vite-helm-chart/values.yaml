@@ -1,0 +1,34 @@
+commonLabel: vite-react-app
+
+namespace:
+  name: dev
+
+extraLabels:
+  environment: dev
+  team: frontend
+
+deployment:
+  name: vite-deployment
+  replicas: 2
+  container:
+    name: vite-react-app
+    port: 8080
+    image: panchanandevops/vite-react-app:2.3.9
+    resources:
+      limits:
+        memory: "512Mi"
+        cpu: "500m"
+      requests:
+        memory: "256Mi"
+        cpu: "250m"
+
+service:
+  name: vite-service
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: true
+  name: vite-ingress
+  className: nginx
+  host: panchanandevops.com

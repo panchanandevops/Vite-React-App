@@ -12,7 +12,7 @@ spec:
     targetRevision: main
     path: Deploy/vite-helm-chart/ # Path within the Git repository containing application manifests
     helm:
-      releaseName: my-nginx-helm
+      releaseName: my-vite-app
   destination:
     server: https://kubernetes.default.svc # Kubernetes cluster API server address
     namespace: dev
