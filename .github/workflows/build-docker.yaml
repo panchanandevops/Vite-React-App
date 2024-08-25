@@ -142,10 +142,16 @@ jobs:
         with:
           sarif_file: "trivy-results.sarif"
 
+      - name: Set Git user identity
+        run: |
+          git config --global user.email "panchanandevops@gmail.com"
+          git config --global user.name "panchanandevops" 
+
       - name: Create a new branch
         run: |
-          BRANCH_NAME="update-image-${{ github.run_id }}"
-          git checkout -b $BRANCH_NAME
+          git checkout -b main   
+          git pull origin main
+          git checkout -b update-deployment-image-${{ github.sha }}
 
       - name: Update deployment image in YAML
         run: |
@@ -153,17 +159,15 @@ jobs:
 
       - name: Commit changes
         run: |
-          git config --global user.email "panchanandevops@gmail.com"
-          git config --global user.name "Panchanan Panigrahi"
           git add Deploy/k8s/1-deployment-vite.yaml
           git commit -m "Update tag in Deploy/k8s/1-deployment-vite.yaml"
-          git push --set-upstream origin $BRANCH_NAME
+          git commit -m "Update deployment image to ${{ steps.meta.outputs.tags }}"
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: $BRANCH_NAME
+          token: ${{ secrets.PAT_TOKEN }}
+          branch: update-deployment-image-${{ github.sha }}
           base: main
           title: "Update Vite React image tag to ${{ steps.meta.outputs.tags }}"
           body: "This PR updates the Vite React image tag to ${{ steps.meta.outputs.tags }}."
