@@ -144,7 +144,7 @@ jobs:
 
       - name: Create a new branch
         run: |
-          BRANCH_NAME="update-image-${{ steps.meta.outputs.tags }}"
+          BRANCH_NAME="update-image-${{ github.run_id }}"
           git checkout -b $BRANCH_NAME
 
       - name: Update deployment image in YAML
