@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: vite-react-app
-          image: panchanandevops/vite-react-app:2.3.9
+          image: panchanandevops/vite-react-app:2.4.6
           ports:
             - containerPort: 8080
           resources:
