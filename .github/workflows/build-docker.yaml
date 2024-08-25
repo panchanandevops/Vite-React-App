@@ -159,9 +159,8 @@ jobs:
 
       - name: Commit changes
         run: |
-          git add Deploy/k8s/1-deployment-vite.yaml
-          git commit -m "Update tag in Deploy/k8s/1-deployment-vite.yaml"
-          git commit -m "Update deployment image to ${{ steps.meta.outputs.tags }}"
+          git add Deploy/k8s/1-deployment-vite.yaml trivy-results.sarif
+          git commit -m "Update tag in Deploy/k8s/1-deployment-vite.yaml and add Trivy scan results"
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
