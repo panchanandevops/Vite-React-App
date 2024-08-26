@@ -13,7 +13,7 @@ deployment:
   container:
     name: vite-react-app
     port: 8080
-    image: panchanandevops/vite-react-app:2.3.9
+    image: panchanandevops/vite-react-app:2.4.7
     resources:
       limits:
         memory: "512Mi"
