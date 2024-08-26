@@ -91,7 +91,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN }}
           branch: update-deployment-image-${{ github.sha }}
           base: main
           title: "Update Vite React image tag to ${{ steps.meta.outputs.tags }}"
