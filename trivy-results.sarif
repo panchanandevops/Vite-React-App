@@ -20,13 +20,13 @@
         }
       },
       "properties": {
-        "imageID": "sha256:57d615a0f2208a62b90017b052195425bd1217e606d9e3f3fbaa21ff51820b31",
-        "imageName": "panchanandevops/vite-react-app:2.5.0",
+        "imageID": "sha256:db897363d037248466468d22a4caae21612156ad8b6a993b9d22562037036ce3",
+        "imageName": "panchanandevops/vite-react-app:2.5.1",
         "repoDigests": [
-          "panchanandevops/vite-react-app@sha256:9b330bf69fb848d690639f6ecae520c2f022e9b6565621287390cf460169d463"
+          "panchanandevops/vite-react-app@sha256:6d2e1f26ce142f95edcba6e0479ce421b19f90ef13597ef5d99421512a3a4c9e"
         ],
         "repoTags": [
-          "panchanandevops/vite-react-app:2.5.0"
+          "panchanandevops/vite-react-app:2.5.1"
         ]
       }
     }
